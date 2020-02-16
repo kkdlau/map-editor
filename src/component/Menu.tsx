@@ -1,4 +1,12 @@
 import React from 'react';
+import './cssFile/menuBody.css';
+import './cssFile/base.css';
+import { ImageTileManager } from '../lib/ImageTileManager';
+import { pageTitle } from './pageTitle';
+import { classificationTitle } from './classificationTitle';
+import { loadMaterial } from './loadMaterial';
+import { materialClick } from './materialClick';
+import { ZoomSlider } from './zoomSlider';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -16,22 +24,58 @@ import React from 'react';
  * 
  * 我看地圖編輯器功能應該不只以上的吧，比起做出以前的編輯器，不如想想你有什麼新功能想做，告訴我之後可以幫你做出來
  */
+interface MenuProps {
+	manager: ImageTileManager,
+}
 
-class Menu extends React.Component<any, any> {
+interface MenuState {
+	materialImage: Array<String>,
+	materialPosition: Array<Object>,
+}
 
-    constructor(props: any, context?: any) {
-        super(props, context);
-    }
+export class Menu extends React.Component<MenuProps, MenuState> {
 
-    componentDidMount() {
-    }
+	constructor(props: MenuProps, context?: any) {
+		super(props, context);
+		this.state = { materialImage: [], materialPosition: [] };
+		loadMaterial(this.props.manager, this.state.materialImage, this.state.materialPosition).then(() => {
+			this.setState({});
+		});
+	}
 
-    render() {
-        return (
-            <div>
-            </div>
-        );
-    }
+	componentDidMount() {
+		pageTitle('builtIn');
+		classificationTitle('floor');
+	}
+
+	render() {
+		return (
+			<div>
+				<div className='menuBody' id='menuBody'>
+					<div className='pageTitle'>
+						<div id='builtIn' className='button' onClick={pageTitle.bind(this, 'builtIn')}>內建</div>
+						<div id='custom' className='button' onClick={pageTitle.bind(this, 'custom')}>自訂</div>
+						<div id='common' className='button' onClick={pageTitle.bind(this, 'common')}>常用</div>
+					</div>
+					<div className='classificationTitle'>
+						<div id='floor' className='button' onClick={classificationTitle.bind(this, 'floor')}>地板</div>
+						<div id='wall' className='button' onClick={classificationTitle.bind(this, 'wall')}>牆壁</div>
+						<div id='object' className='button' onClick={classificationTitle.bind(this, 'object')}>物件</div>
+					</div>
+					<div className='materialBox'>
+						{this.state.materialPosition.map((data: any, idx) => {
+							return (
+								<div className='materialImageBox button' id={`materialImageBox${idx}`} onClick={materialClick.bind(this, `materialImageBox${idx}`)} key={idx}>
+									<img src={this.state.materialImage[data.imgIdx].toString()} draggable="false" style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }} />
+								</div>
+							)
+						})}
+					</div>
+				</div>
+				<ZoomSlider />
+			</div>
+		);
+	}
 }
 
 export default Menu;

@@ -1,0 +1,32 @@
+.button {
+    user-select: none;
+    cursor: pointer;
+}
+html {
+    font-family: Microsoft JhengHei;
+    user-select: none;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background:rgba(0,0,0,.1);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.2);
+    border-radius: 2px;
+}
+
+.slider {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    width: 150px;
+    bottom: 10px;
+    left: 10px;
+    backdrop-filter: blur(8px);
+    background-color: #424242;
+    z-index: 1;
+}

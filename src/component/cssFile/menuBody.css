@@ -1,0 +1,72 @@
+.menuBody {
+    position: absolute;
+    width: 220px;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background: #424242;
+}
+
+.pageTitle {
+    display: flex;
+    background: #292929;
+}
+
+.pageTitle div {
+    width: 100%;
+    text-align: center;
+    border-right: 1px solid #4e4e4e;
+    color: white;
+    line-height: 32px;
+    font-size: 16px;
+}
+.pageTitle div:hover {
+    background: #353535;
+}
+
+
+.classificationTitle {
+    display: flex;
+    background: #292929;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 12px;
+    margin-left: 12px;
+    border: 2px solid #272727;
+}
+
+.classificationTitle div {
+    width: 100%;
+    text-align: center;
+    color: white;
+    line-height: 32px;
+    font-size: 16px;
+}
+.classificationTitle div:hover {
+    background: #353535;
+}
+
+.materialBox {
+    height: calc(100% - 110px);
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.materialImageBox {
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    zoom: 1.5;
+    margin: 6px;
+}
+
+.materialImageBox:hover {
+    opacity: 0.5;
+}
+
+.materialImageBox:active {
+    zoom: 1.3;
+    margin: 9.5px;
+}
