@@ -20,4 +20,14 @@
 
 # 測試
 
-在CMD輸入`npm start`。
+如果你未測試過，你首先要下載本專案使用過的Libray。
+
+首先在vscode打開本專案，並打開命令行。
+
+在命令行輸入：`npm install`即可下載Libray。
+
+之後，輸入`npm start`便可以開始測試。
+
+# 設計UI
+
+你的UI出發點在`src/app.tsx`，在這邊可以寫你的React code。
