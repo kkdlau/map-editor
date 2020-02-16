@@ -28,6 +28,8 @@
 
 之後，輸入`npm start`便可以開始測試。
 
+在命令行按下`Control + C`可以停止測試。
+
 # 設計UI
 
 你的UI出發點在`src/app.tsx`，在這邊可以寫你的React code。
