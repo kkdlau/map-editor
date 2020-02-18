@@ -1,8 +1,7 @@
 import React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/Tooltip';
-import * as PIXI from 'pixi.js';
-import { Icon, Slider } from '@material-ui/core';
+import { Slider } from '@material-ui/core';
 import { mapViewer } from '..';
 import ZoomIn from '@material-ui/icons/ZoomIn';
 import ZoomOut from '@material-ui/icons/ZoomOut';
