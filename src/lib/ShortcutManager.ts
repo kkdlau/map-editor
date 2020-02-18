@@ -11,8 +11,8 @@ interface ShortcutEvent {
 }
 
 export class ShortcutManager {
-  private _registeredEvent = <ShortcutEvent>{};
-  private _triggerHistory = <boolean>{};
+  private _registeredEvent = {} as ShortcutEvent;
+  private _triggerHistory = {} as boolean;
   private _keyCollection = {};
   private _keyActionHistory = {}
 

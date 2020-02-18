@@ -33,8 +33,8 @@ export class MapPoint extends PIXI.Point {
      * @return new MapPoint with tiled map system
      */
     public toMapSys(): MapPoint {
-        if (this.sys == PointSystem.MAP) return this;
-        return new MapPoint(Math.floor(this.x / 32), Math.floor(this.x / 32), PointSystem.MAP);
+        if (this.sys === PointSystem.MAP) return this;
+        return new MapPoint(Math.floor(this.x / 32), Math.floor(this.y / 32), PointSystem.MAP);
     }
 
     /**
@@ -43,7 +43,7 @@ export class MapPoint extends PIXI.Point {
      * @return new MapPoint with pixi system
      */
     public toPIXISys(): MapPoint {
-        if (this.sys == PointSystem.PIXI) return this;
+        if (this.sys === PointSystem.PIXI) return this;
         return new MapPoint(this.x * 32, this.y * 32);
     }
 

@@ -54,12 +54,12 @@ export class EditableMap extends PIXI.Container {
     public onClick: (x: number, y: number, clickType: Click) => void = null;
 
 	/**
-	 * Callback function when dragging action is ended.
+	 * 拖動動作結束時會被呼叫的function。
 	 * 
-	 * @param {number} x1 the x coordinate of the start dragging point
-	 * @param {number} y1 the y coordinate of the start dragging point
-	 * @param {number} x2 the x coordinate of the end dragging point
-	 * @param {number} y2 the x coordinate of the end dragging point
+	 * @param {number} x1 起始拖動點的x坐標
+	 * @param {number} y1 起始拖動點的y坐標
+	 * @param {number} x2 結束拖動點的x坐標
+	 * @param {number} y2 結束拖動點的y坐標
 	 */
     public onDrag: (x1: number, y1: number, x2: number, y2: number) => void = null;
 
@@ -85,17 +85,16 @@ export class EditableMap extends PIXI.Container {
 
         this.on('mouseup', (e: PIXI.interaction.InteractionEvent) => {
             if (this._startDrag) {
-                let c = MapPoint.fromPoint(e.data.getLocalPosition(this)).toMapSys();
+                let c: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this)).toMapSys();
                 this.removeChild(this._draggingArea);
-                if (this.onDrag)
-                    this.onDrag(this._startDrag.x, this._startDrag.y, c.x, c.y);
+                this.onDrag && this.onDrag(this._startDrag.x, this._startDrag.y, c.x, c.y);
                 this._startDrag = null;
             } else {
                 // normal click
                 let result: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this))
                     .addXY(-this._tile.x, -this._tile.y)
                     .toMapSys();
-                this.onClick(result.x, result.y, Click.LEFT);
+                this.onClick && this.onClick(result.x, result.y, Click.LEFT);
             }
         });
 
@@ -107,8 +106,8 @@ export class EditableMap extends PIXI.Container {
             // load map
             for (let layer of data['layers']) {
                 for (let tileData in layer['tiles']) {
-                    const tileSaver: PIXI.Sprite[] = this._editableTile[tileData] == undefined ? this._editableTile[tileData] = [] : this._editableTile[tileData];
-                    const phySaver: PIXI.Graphics[] = this._editablePhysics[tileData] == undefined ? this._editablePhysics[tileData] = [] : this._editablePhysics[tileData];
+                    const tileSaver: PIXI.Sprite[] = this._editableTile[tileData] === undefined ? this._editableTile[tileData] = [] : this._editableTile[tileData];
+                    const phySaver: PIXI.Graphics[] = this._editablePhysics[tileData] === undefined ? this._editablePhysics[tileData] = [] : this._editablePhysics[tileData];
                     const loc: string[] = tileData.split(',');
                     const pos: number[] = [parseInt(loc[0]), parseInt(loc[1])];
                     const ri = layer['tiles'][tileData];
@@ -129,22 +128,22 @@ export class EditableMap extends PIXI.Container {
     }
 
 	/**
-	 * Create an editable map from JSON
+	 * 從JSON創建可編輯的地圖。
 	 * 
-	 * @param {ImageTileManager} imageSet the image set that is used in map
-	 * @param {MapData} json the json data
+	 * @param {ImageTileManager} imageSet 在地圖中使用的圖像集
+	 * @param {MapData} json json數據
 	 * 
-	 * @return {EditableMap} an editable map
+	 * @return {EditableMap} 可編輯的地圖
 	 */
     static fromJSON(imageSet: ImageTileManager, json: MapData): EditableMap {
         return new EditableMap(imageSet, json.cols, json.rows, { r: '0', i: 63, layer: 1 }, json);
     }
 
     private _shortcutConfig() {
-        shortcutManager.on('A', [Key.A], () => this._shiftMap({ x: 10 }));
-        shortcutManager.on('D', [Key.D], () => this._shiftMap({ x: -10 }));
-        shortcutManager.on('W', [Key.W], () => this._shiftMap({ y: 10 }));
-        shortcutManager.on('S', [Key.S], () => this._shiftMap({ y: -10 }));
+        shortcutManager.on('A', [Key.A], () => this._shiftMap({ x: -10 }));
+        shortcutManager.on('D', [Key.D], () => this._shiftMap({ x: 10 }));
+        shortcutManager.on('W', [Key.W], () => this._shiftMap({ y: -10 }));
+        shortcutManager.on('S', [Key.S], () => this._shiftMap({ y: 10 }));
     }
 
     private _createPhysicsTile(x: number, y: number, level: number): PIXI.Graphics {

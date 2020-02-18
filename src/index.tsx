@@ -23,14 +23,14 @@ for (let r in resourceList) {
 
 loader.load((loader, resources) => {
     mapViewer = new PIXI.Application({
-        width: window.innerWidth - 10,
-        height: window.innerHeight - 10
+        width: window.innerWidth,
+        height: window.innerHeight
     });
 
     mapViewer.renderer.autoDensity = true;
 
     window.onresize = () => {
-        mapViewer.renderer.resize(window.innerWidth - 10, window.innerHeight - 10);
+        mapViewer.renderer.resize(window.innerWidth, window.innerHeight);
     }
     document.body.appendChild(mapViewer.view);
 
