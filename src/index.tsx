@@ -6,17 +6,17 @@ import * as serviceWorker from './serviceWorker';
 import { ImageTileManager } from './lib/ImageTileManager';
 import * as PIXI from 'pixi.js';
 import tileset_0 from './assets/tileset0_v8.png';
-export let resources = {
-    'tileset_0': './assets/tileset0_v8.png'
+
+let resourceList = {
+    'tileset_0': tileset_0
 };
 
 export const loader = PIXI.Loader.shared;
 export let mapViewer: PIXI.Application;
 export let manager: ImageTileManager;
 
-for (let r in resources) {
-    const img = React.lazy(() => import(resources[r]));
-    loader.add(r, img);
+for (let r in resourceList) {
+    loader.add(r, resourceList[r]);
 }
 
 loader.load((loader, resources) => {
@@ -35,9 +35,7 @@ loader.load((loader, resources) => {
     manager = new ImageTileManager(['tileset_0']);
 
     manager.loadTexture().then(() => {
-        let a = new PIXI.Sprite(manager.collections[0][0]);
-        console.log(manager.collections[0].length);
-        mapViewer.stage.addChild(a);
+        mapViewer.stage.addChild(new PIXI.Sprite(manager.collections[0][63]));
         ReactDOM.render(<App />, document.getElementById('root'));
 
         serviceWorker.register();

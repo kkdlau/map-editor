@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { mapViewer, resources } from '../';
+import { mapViewer } from '../';
 
 export class ImageTileManager {
     collections: PIXI.Texture[][] = [];
@@ -14,15 +14,16 @@ export class ImageTileManager {
     async loadTexture(): Promise<void> {
         await new Promise(r => {
             this.images.forEach(async (e: string, i: number): Promise<void> => {
-                let mapTexture: PIXI.Sprite = new PIXI.Sprite(PIXI.Texture.from(e));
+                let mapTexture: PIXI.Sprite = PIXI.Sprite.from(e);
                 let collection: PIXI.Texture[] = [];
                 let height: number = mapTexture.height;
                 let width: number = mapTexture.width;
                 for (let y: number = 0; y < height; y += 32) {
                     for (let x: number = 0; x < width; x += 32) {
-                        collection.push(new PIXI.Texture(PIXI.BaseTexture.from(resources[e], new PIXI.Rectangle(x, y, 32, 32))));
+                        collection.push(new PIXI.Texture(mapTexture.texture.baseTexture, new PIXI.Rectangle(x, y, 32, 32)));
                     }
                 }
+                mapTexture.destroy();
                 this.collections.push(collection);
             });
             r();
