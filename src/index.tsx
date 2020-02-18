@@ -5,9 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ImageTileManager } from './lib/ImageTileManager';
 import * as PIXI from 'pixi.js';
-import tileset_0 from './assets/tileset0_v8.png';
+import tileset_0 from './assets/tileset_0.png';
 
-let resourceList = {
+export let resourceList = {
     'tileset_0': tileset_0
 };
 

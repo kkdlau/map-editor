@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { mapViewer } from '../';
 
 export class ImageTileManager {
     collections: PIXI.Texture[][] = [];
