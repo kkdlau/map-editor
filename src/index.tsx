@@ -9,12 +9,23 @@ import tileset_0 from './assets/tileset_0.png';
 import jsonData from './assets/decoded.json';
 import { EditableMap } from './lib/EditableMap';
 
+// manage the relationship between alias and data.
 export let resourceList = {
     'tileset_0': tileset_0
 };
 
 export const loader = PIXI.Loader.shared;
-export let mapViewer: PIXI.Application;
+export const mapViewer: PIXI.Application = new PIXI.Application({
+    width: window.innerWidth,
+    height: window.innerHeight
+});
+mapViewer.view.style.overflow = 'hidden';
+mapViewer.renderer.autoDensity = true;
+
+window.onresize = () => {
+    mapViewer.renderer.resize(window.innerWidth, window.innerHeight);
+}
+
 export let manager: ImageTileManager;
 
 for (let r in resourceList) {
@@ -22,16 +33,6 @@ for (let r in resourceList) {
 }
 
 loader.load((loader, resources) => {
-    mapViewer = new PIXI.Application({
-        width: window.innerWidth,
-        height: window.innerHeight
-    });
-
-    mapViewer.renderer.autoDensity = true;
-
-    window.onresize = () => {
-        mapViewer.renderer.resize(window.innerWidth, window.innerHeight);
-    }
     document.body.appendChild(mapViewer.view);
 
     manager = new ImageTileManager(['tileset_0']);
