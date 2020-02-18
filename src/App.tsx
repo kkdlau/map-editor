@@ -1,17 +1,11 @@
 import React from 'react';
 import './App.css';
 import Menu from './component/Menu';
-import * as PIXI from 'pixi.js';
-
-let type = "WebGL"
-if (!PIXI.utils.isWebGLSupported()) {
-  type = "canvas"
-}
-
+import { manager } from '.';
 function App() {
   return (
     <div className="App">
-      <Menu />
+      <Menu manager={manager} />
     </div>
   );
 }

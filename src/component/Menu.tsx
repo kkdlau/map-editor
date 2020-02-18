@@ -1,12 +1,12 @@
 import React from 'react';
-import './cssFile/menuBody.css';
-import './cssFile/base.css';
+import './css/menuBody.css';
+import './css/base.css';
 import { ImageTileManager } from '../lib/ImageTileManager';
 import { pageTitle } from './pageTitle';
 import { classificationTitle } from './classificationTitle';
 import { loadMaterial } from './loadMaterial';
 import { materialClick } from './materialClick';
-import { ZoomSlider } from './zoomSlider';
+import { ZoomSlider } from './ZoomSlider';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：

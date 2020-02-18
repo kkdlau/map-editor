@@ -2,19 +2,24 @@
     user-select: none;
     cursor: pointer;
 }
+
 html {
     font-family: Microsoft JhengHei;
     user-select: none;
+    background-color: #000;
 }
+
 ::-webkit-scrollbar {
     width: 10px;
 }
+
 ::-webkit-scrollbar-track {
-    background:rgba(0,0,0,.1);
+    background: rgba(0, 0, 0, .1);
     border-radius: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.2);
+    background: rgba(0, 0, 0, .2);
     border-radius: 2px;
 }
 

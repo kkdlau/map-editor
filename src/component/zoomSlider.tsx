@@ -1,4 +1,11 @@
-import { emitter } from '../app';
+import React from 'react';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/Tooltip';
+import * as PIXI from 'pixi.js';
+import { Icon, Slider } from '@material-ui/core';
+import { mapViewer } from '..';
+import ZoomIn from '@material-ui/icons/ZoomIn';
+import ZoomOut from '@material-ui/icons/ZoomOut';
 
 interface ZoomSliderStates {
 	scale: number;
@@ -10,9 +17,9 @@ interface ZoomSliderProps {
 const ValueLabelComponent = (props) => {
 	const { children, open, value } = props;
 	return (
-		<MaterialUI.Tooltip open={open} enterTouchDelay={0} placement="top" title={value + "%"}>
+		<Tooltip open={open} enterTouchDelay={0} placement="top" title={value + "%"}>
 			{children}
-		</MaterialUI.Tooltip>
+		</Tooltip>
 	);
 }
 
@@ -29,17 +36,16 @@ export class ZoomSlider extends React.Component<ZoomSliderProps, ZoomSliderState
 		this.setState({
 			scale: Math.max(10, Math.min(300, value))
 		});
-		CG.Base.pixi.stage.scale.set(this.state.scale / 100, this.state.scale / 100);
-		emitter.emit('zoom', this.state.scale);
+		mapViewer.stage.scale.set(this.state.scale / 100, this.state.scale / 100);
 	}
 
 	render() {
 		return (
 			<div className="slider">
-				<MaterialUI.IconButton size='small' onClick={() => this.zoom(null, this.state.scale - 10)}>
-					<MaterialUI.Icon style={{color: "hsl(0, 1%, 80%)" }}>zoom_out</MaterialUI.Icon>
-				</MaterialUI.IconButton>
-				<MaterialUI.Slider
+				<IconButton title='zoom' onClick={() => this.zoom(null, this.state.scale - 10)}>
+					<ZoomOut style={{ color: "hsl(0, 1%, 80%)" }} />
+				</IconButton>
+				<Slider
 					defaultValue={100}
 					value={this.state.scale}
 					aria-valuetext={"Zoom In / Out"}
@@ -53,10 +59,10 @@ export class ZoomSlider extends React.Component<ZoomSliderProps, ZoomSliderState
 					step={1}
 					onChange={this.zoom}
 				/>
-				<MaterialUI.IconButton size='small'  onClick={() => this.zoom(null, this.state.scale + 10)}>
-					<MaterialUI.Icon style={{color: "hsl(0, 1%, 80%)" }}>zoom_in</MaterialUI.Icon>
-				</MaterialUI.IconButton>
-			</div>
+				<IconButton title='zoom' onClick={() => this.zoom(null, this.state.scale + 10)}>
+					<ZoomIn style={{ color: "hsl(0, 1%, 80%)" }} />
+				</IconButton>
+			</div >
 		);
 	}
 }
