@@ -6,7 +6,7 @@ import { pageTitle } from './pageTitle';
 import { classificationTitle } from './classificationTitle';
 import { loadMaterial } from './loadMaterial';
 import { materialClick } from './materialClick';
-import { ZoomSlider } from './ZoomSlider';
+import { ZoomSlider } from './zoomSlider';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -44,28 +44,28 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 	}
 
 	componentDidMount() {
-		pageTitle('builtIn');
+		pageTitle('built-in');
 		classificationTitle('floor');
 	}
 
 	render() {
 		return (
 			<div>
-				<div className='menuBody' id='menuBody'>
-					<div className='pageTitle'>
-						<div id='builtIn' className='button' onClick={pageTitle.bind(this, 'builtIn')}>內建</div>
+				<div className='menu-body' id='menu-body'>
+					<div className='page-title'>
+						<div id='built-in' className='button' onClick={pageTitle.bind(this, 'built-in')}>內建</div>
 						<div id='custom' className='button' onClick={pageTitle.bind(this, 'custom')}>自訂</div>
 						<div id='common' className='button' onClick={pageTitle.bind(this, 'common')}>常用</div>
 					</div>
-					<div className='classificationTitle'>
+					<div className='classification-title'>
 						<div id='floor' className='button' onClick={classificationTitle.bind(this, 'floor')}>地板</div>
 						<div id='wall' className='button' onClick={classificationTitle.bind(this, 'wall')}>牆壁</div>
 						<div id='object' className='button' onClick={classificationTitle.bind(this, 'object')}>物件</div>
 					</div>
-					<div className='materialBox'>
+					<div className='material-box'>
 						{this.state.materialPosition.map((data: any, idx) => {
 							return (
-								<div className='materialImageBox button' id={`materialImageBox${idx}`} onClick={materialClick.bind(this, `materialImageBox${idx}`)} key={idx}>
+								<div className='material-image-box button' id={`material-image-box${idx}`} onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
 									<img src={this.state.materialImage[data.imgIdx].toString()} draggable="false" style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }} />
 								</div>
 							)

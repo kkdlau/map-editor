@@ -1,4 +1,4 @@
-.menuBody {
+.menu-body {
     position: absolute;
     width: 220px;
     height: 100%;
@@ -7,12 +7,12 @@
     background: #424242;
 }
 
-.pageTitle {
+.page-title {
     display: flex;
     background: #292929;
 }
 
-.pageTitle div {
+.page-title div {
     width: 100%;
     text-align: center;
     border-right: 1px solid #4e4e4e;
@@ -20,12 +20,12 @@
     line-height: 32px;
     font-size: 16px;
 }
-.pageTitle div:hover {
+.page-title div:hover {
     background: #353535;
 }
 
 
-.classificationTitle {
+.classification-title {
     display: flex;
     background: #292929;
     margin-top: 20px;
@@ -35,18 +35,18 @@
     border: 2px solid #272727;
 }
 
-.classificationTitle div {
+.classification-title div {
     width: 100%;
     text-align: center;
     color: white;
     line-height: 32px;
     font-size: 16px;
 }
-.classificationTitle div:hover {
+.classification-title div:hover {
     background: #353535;
 }
 
-.materialBox {
+.material-box {
     height: calc(100% - 110px);
     overflow-y: auto;
     display: flex;
@@ -54,7 +54,7 @@
     justify-content: center;
 }
 
-.materialImageBox {
+.material-image-box {
     width: 32px;
     height: 32px;
     overflow: hidden;
@@ -62,11 +62,11 @@
     margin: 6px;
 }
 
-.materialImageBox:hover {
+.material-imageBox:hover {
     opacity: 0.5;
 }
 
-.materialImageBox:active {
+.material-imageBox:active {
     zoom: 1.3;
     margin: 9.5px;
 }
