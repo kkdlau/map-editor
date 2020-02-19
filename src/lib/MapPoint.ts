@@ -50,8 +50,9 @@ export class MapPoint extends PIXI.Point {
      */
     addXY(x: number | MapPoint, y: number): MapPoint {
         if (x instanceof MapPoint) {
-            y = (x as MapPoint).y;
-            x = (x as MapPoint).x;
+            x = x as MapPoint;
+            y = x.y;
+            x = x.x;
         }
         return new MapPoint(this.x + x, this.y + y, this.sys);
     }
@@ -63,8 +64,9 @@ export class MapPoint extends PIXI.Point {
      */
     distanceTo(x: number | MapPoint, y?: number): number {
         if (x instanceof MapPoint) {
-            y = (x as MapPoint).y;
-            x = (x as MapPoint).x;
+            x = x as MapPoint;
+            y = x.y;
+            x = x.x;
         }
         return Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2));
     }
