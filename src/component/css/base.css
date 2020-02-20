@@ -8,20 +8,11 @@ body {
     user-select: none;
     background-color: #000;
     height: 100%;
-}
-
-body {
-    height: 100%;
     overflow: hidden;
 }
 
 #root {
-    width: 100%;
     z-index: 100;
-    background-color: transparent;
-    height: 100%;
-    position: absolute;
-    border: #000;
 }
 
 .app-layout {
@@ -67,4 +58,5 @@ body {
     background-color: #424242;
     padding: 10px 10px 10px 10px;
     color: rgb(266, 266, 266);
+    position: absolute;
 }
