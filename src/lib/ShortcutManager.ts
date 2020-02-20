@@ -39,7 +39,6 @@ export class ShortcutManager {
     });
 
     document.addEventListener('keyup', e => {
-      console.log(e.keyCode);
       delete this._keyActionHistory[e.keyCode];
     });
   }

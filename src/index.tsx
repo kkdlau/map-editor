@@ -8,9 +8,10 @@ import * as PIXI from 'pixi.js';
 import tileset_0 from './assets/tileset_0.png';
 import jsonData from './assets/decoded.json';
 import { EditableMap, Click } from './lib/EditableMap';
-import { Action, undoRecord } from './lib/undoRedo';
+import { Action, undoRecord, redoRecord } from './lib/undoRedo';
 import { shortcutManager, KeyAction } from './lib/ShortcutManager';
 import { Key } from './lib/key';
+import hotkeys from 'hotkeys-js';
 
 // manage the relationship between alias and data.
 export let resourceList = {
@@ -49,16 +50,25 @@ loader.load((loader, resources) => {
             myMap.showPhysicsLayer = !myMap.showPhysicsLayer;
         });
 
-        shortcutManager.on('undo', [Key.CTRL, Key.Z], () => {
+        hotkeys('ctrl+z, command+z', () => {
             if (!undoRecord.length) return;
             let record: Action = undoRecord.pop();
             record.undo(record.param);
+            redoRecord.push(record);
+        });
+
+        hotkeys('ctrl+x, command+x', () => {
+            if (!redoRecord.length) return;
+            let record: Action = redoRecord.pop();
+            record.redo(record.param);
+            undoRecord.push(record);
         });
 
         myMap.onClick = (x: number, y: number, Click: Click) => {
             myMap.stack(x, y, { r: '0', i: 63, layer: 1 });
             undoRecord.push({
                 undo: (obj) => myMap.delete(obj.x, obj.y),
+                redo: (obj) => myMap.stack(obj.x, obj.y, { r: '0', i: 63, layer: 1 }),
                 param: { x: x, y: y }
             } as Action);
         }

@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Menu from './component/Menu';
 import { manager } from '.';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
