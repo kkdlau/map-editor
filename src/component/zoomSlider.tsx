@@ -40,8 +40,8 @@ export class ZoomSlider extends React.Component<ZoomSliderProps, ZoomSliderState
 
 	render() {
 		return (
-			<div className="slider">
-				<IconButton title='zoom' onClick={() => this.zoom(null, this.state.scale - 10)}>
+			<div className="slider" style={{ paddingLeft: "5px", paddingRight: '5px' }}>
+				<IconButton className='button' title="縮小" onClick={() => this.zoom(null, this.state.scale - 10)}>
 					<ZoomOut style={{ color: "hsl(0, 1%, 80%)" }} />
 				</IconButton>
 				<Slider
@@ -57,8 +57,9 @@ export class ZoomSlider extends React.Component<ZoomSliderProps, ZoomSliderState
 					max={300}
 					step={1}
 					onChange={this.zoom}
+					style={{ marginLeft: "5px", marginRight: '5px' }}
 				/>
-				<IconButton title='zoom' onClick={() => this.zoom(null, this.state.scale + 10)}>
+				<IconButton className='button' title="放大" onClick={() => this.zoom(null, this.state.scale + 10)}>
 					<ZoomIn style={{ color: "hsl(0, 1%, 80%)" }} />
 				</IconButton>
 			</div >

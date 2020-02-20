@@ -3,10 +3,11 @@
     cursor: pointer;
 }
 
-html {
+body {
     font-family: Microsoft JhengHei;
     user-select: none;
     background-color: #000;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
