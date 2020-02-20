@@ -1,3 +1,4 @@
+import { TileSprite, PhysicsTile } from './TileSprite';
 import { MapPoint } from './MapPoint';
 import { shortcutManager } from './ShortcutManager';
 import { ImageTileManager } from './ImageTileManager';
@@ -16,12 +17,6 @@ interface MapData {
     layers: Array<Object>
 }
 
-const physicsVisualization: number[] = [
-    0x32a852,
-    0xa8324c,
-    0xa89032
-];
-
 export interface Tile {
     r: string,
     i: number,
@@ -37,8 +32,8 @@ export class EditableMap extends PIXI.Container {
     private _tile: PIXI.Container = new PIXI.Container(); // 地圖圖片
     private physicsLayer: PIXI.Container = new PIXI.Container(); // 用於顯示地圖物理佈局
     private _showPhysics: boolean = false;
-    private _editableTile: Map<string, PIXI.Sprite[]> = new Map<string, PIXI.Sprite[]>();
-    private _editablePhysics: Map<string, PIXI.Graphics[]> = new Map<string, PIXI.Graphics[]>();
+    private _editableTile: Map<string, TileSprite[]> = new Map<string, TileSprite[]>();
+    private _editablePhysics: Map<string, PhysicsTile> = new Map<string, PhysicsTile>();
     private _hoverGraphics: PIXI.Graphics;
     private _lastCursorPos: PIXI.Point;
     private _startDrag: MapPoint;
@@ -106,18 +101,21 @@ export class EditableMap extends PIXI.Container {
             // load map
             for (let layer of data['layers']) {
                 for (let tileData in layer['tiles']) {
-                    const tileSaver: PIXI.Sprite[] = this._editableTile[tileData] === undefined ? this._editableTile[tileData] = [] : this._editableTile[tileData];
-                    const phySaver: PIXI.Graphics[] = this._editablePhysics[tileData] === undefined ? this._editablePhysics[tileData] = [] : this._editablePhysics[tileData];
+                    const tileSaver: TileSprite[] = this._editableTile[tileData] === undefined ?
+                        this._editableTile[tileData] = [] : this._editableTile[tileData];
+
                     const loc: string[] = tileData.split(',');
                     const pos: number[] = [parseInt(loc[0]), parseInt(loc[1])];
                     const ri = layer['tiles'][tileData];
-                    const tile = this._createImageTile(pos[0], pos[1], ri['r'], ri['i']);
+                    const layerLevel = data['tiles'][tileData]['layer'];
+                    const tile: TileSprite = this._createImageTile(pos[0], pos[1], ri['r'], ri['i'], layerLevel);
                     tileSaver.push(tile);
                     this._tile.addChild(tile);
 
-                    const layerLevel = data['tiles'][tileData]['layer'] - 1;
-                    const phyTile: PIXI.Graphics = this._createPhysicsTile(pos[0], pos[1], layerLevel);
-                    phySaver.push(phyTile);
+                    const phyTile: PhysicsTile = tile.toPhysicsTile();
+                    // TODO: add event of clicking physics tile
+
+                    this._editablePhysics[tileData] = phyTile;
                     this.physicsLayer.addChild(phyTile);
                 }
             }
@@ -140,27 +138,10 @@ export class EditableMap extends PIXI.Container {
     }
 
     private _shortcutConfig() {
-        shortcutManager.on('A', [Key.A], () => this._shiftMap({ x: -10 }));
-        shortcutManager.on('D', [Key.D], () => this._shiftMap({ x: 10 }));
-        shortcutManager.on('W', [Key.W], () => this._shiftMap({ y: -10 }));
-        shortcutManager.on('S', [Key.S], () => this._shiftMap({ y: 10 }));
-    }
-
-    private _createPhysicsTile(x: number, y: number, level: number): PIXI.Graphics {
-        let phyTile: PIXI.Graphics = new PIXI.Graphics();
-        if (level % 1 === 0) {
-            phyTile.beginFill(physicsVisualization[level], 0.3);
-        } else {
-            phyTile.beginFill((physicsVisualization[Math.ceil(level)] + physicsVisualization[Math.floor(level)]) / 2, 0.3);
-        }
-        phyTile.drawRect(0, 0, 32, 32);
-        phyTile.endFill();
-        phyTile.position.set(x, y);
-        phyTile.interactive = true;
-        phyTile.on('mousedown', () => {
-
-        });
-        return phyTile;
+        shortcutManager.on('A', [Key.A], () => this._shiftMap({ x: 30 }));
+        shortcutManager.on('D', [Key.D], () => this._shiftMap({ x: -30 }));
+        shortcutManager.on('W', [Key.W], () => this._shiftMap({ y: 30 }));
+        shortcutManager.on('S', [Key.S], () => this._shiftMap({ y: -30 }));
     }
 
     private _shiftMap(offset: Object): void {
@@ -185,20 +166,26 @@ export class EditableMap extends PIXI.Container {
         );
     }
 
+    /**
+     * Update grid cursor position.
+     */
     private _updateCursor() {
         let cursor: MapPoint = this._correctPoint(this._lastCursorPos);
         this._hoverGraphics.position.set(cursor.x, cursor.y);
     }
 
+    /**
+     * Update, and visualize selected area.
+     */
     private _updateSelectedArea() {
         let tem = MapPoint.fromPoint(this._lastCursorPos).toMapSys();
         let min = {
-            x: Math.min(tem.x, this._startDrag.x),
-            y: Math.min(tem.y, this._startDrag.y)
+            x: Math.max(0, Math.min(tem.x, this._startDrag.x)),
+            y: Math.max(0, Math.min(tem.y, this._startDrag.y))
         };
         let max = {
-            x: Math.max(tem.x, this._startDrag.x),
-            y: Math.max(tem.y, this._startDrag.y)
+            x: Math.min(Math.max(tem.x, this._startDrag.x), this.mapWidth - 1),
+            y: Math.min(Math.max(tem.y, this._startDrag.y), this.mapHeight - 1)
         };
         this._draggingArea.destroy();
         this._draggingArea = new PIXI.Graphics();
@@ -212,8 +199,15 @@ export class EditableMap extends PIXI.Container {
 
     }
 
-    private _createImageTile(x: number, y: number, r: string | number, i: number): PIXI.Sprite {
-        let image: PIXI.Sprite = new PIXI.Sprite(this.imageSet.collections[r][i]);
+    /**
+     * Create a PIXI.Sprite which represent the image tile.
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param r which image set
+     * @param i the index of grid
+     */
+    private _createImageTile(x: number, y: number, r: string | number, i: number, layer: number): TileSprite {
+        let image: TileSprite = new TileSprite(this.imageSet.collections[r][i], r, i, layer - 1);
         image.position.set(x * 32, y * 32);
         image.interactive = true;
         image.on('rightclick', e => {
@@ -246,19 +240,29 @@ export class EditableMap extends PIXI.Container {
 	 * @param {number} y y coordinate of the point
 	 */
     public delete(x: number, y: number): void {
+        let list: TileSprite[] = this._editableTile[x + ',' + y];
+        if (list.length === 1) return;
 
+        let last: TileSprite = list.pop();
+        this._tile.removeChild(last);
+        this._editablePhysics[x + ',' + y].layer = list[list.length - 1].layer;
     }
 
 	/**
 	 * stack a tile on map.
+     * Please note that, if you stack a tile which is the same as the last one, it will stack nothings.
 	 * 
 	 * @param {number} x x coordinate of the point
 	 * @param {number} y y coordinate of the point
 	 * @param {Tile} tile tile data
 	 */
     public stack(x: number, y: number, tile: Tile): void {
-        let image: PIXI.Sprite = this._createImageTile(x, y, tile.r, tile.i);
+        let last: TileSprite = this._editableTile[x + ',' + y][this._editableTile[x + ',' + y].length - 1];
+        if (last.r === tile.r && last.i === tile.i) return;
+        let image: TileSprite = this._createImageTile(x, y, tile.r, tile.i, tile.layer);
         this._editableTile[x + ',' + y].push(image);
+        this._editablePhysics[x + ',' + y].layer = tile.layer;
+
         this._tile.addChild(image);
     }
 

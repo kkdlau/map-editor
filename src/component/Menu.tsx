@@ -7,6 +7,8 @@ import { classificationTitle } from './classificationTitle';
 import { loadMaterial } from './loadMaterial';
 import { materialClick } from './materialClick';
 import { ZoomSlider } from './ZoomSlider';
+import { Button } from '@material-ui/core';
+import ShortcutPanel from './ShortcutPanel';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -31,13 +33,14 @@ interface MenuProps {
 interface MenuState {
 	materialImage: Array<String>,
 	materialPosition: Array<Object>,
+	settingPanel: boolean
 }
 
 export class Menu extends React.Component<MenuProps, MenuState> {
 
 	constructor(props: MenuProps, context?: any) {
 		super(props, context);
-		this.state = { materialImage: [], materialPosition: [] };
+		this.state = { materialImage: [], materialPosition: [], settingPanel: false };
 		loadMaterial(this.props.manager, this.state.materialImage, this.state.materialPosition).then(() => {
 			this.setState({});
 		});
@@ -52,6 +55,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 		return (
 			<div>
 				<div className='menu-body' id='menu-body'>
+					<Button color='primary' style={{ alignContent: 'center', margin: '5px 5px 5px 5px', minWidth: '90%' }} variant='contained' onClick={() => this.setState({ settingPanel: true })}> 設定</Button>
 					<div className='page-title'>
 						<div id='built-in' className='button' onClick={pageTitle.bind(this, 'built-in')}>內建</div>
 						<div id='custom' className='button' onClick={pageTitle.bind(this, 'custom')}>自訂</div>
@@ -73,6 +77,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 					</div>
 				</div>
 				<ZoomSlider />
+				<ShortcutPanel open={this.state.settingPanel} />
 			</div>
 		);
 	}

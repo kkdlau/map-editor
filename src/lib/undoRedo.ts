@@ -1,6 +1,6 @@
 export interface Action {
-    undoFc?: Function,
-    redoFc?: Function,
+    undo?: Function,
+    redo?: Function,
     param?: {}
 }
 

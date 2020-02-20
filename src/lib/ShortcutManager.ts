@@ -1,3 +1,4 @@
+import { Key } from './key';
 export enum KeyAction {
   PRESS,
   DOWN,
@@ -14,17 +15,17 @@ export class ShortcutManager {
   private _registeredEvent = {} as ShortcutEvent;
   private _triggerHistory = {} as boolean;
   private _keyCollection = {};
-  private _keyActionHistory = {}
+  private _keyActionHistory = {};
 
   constructor() {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keypress', (e) => {
       if (e.keyCode in this._keyCollection) {
         this._keyActionHistory[e.keyCode] = true;
         e.preventDefault();
         outter: for (let code in this._registeredEvent) {
           let event: ShortcutEvent = this._registeredEvent[code];
           for (let keyid of event.keyCode) {
-            if (this._keyActionHistory[keyid]) {
+            if (!this._keyActionHistory[keyid]) {
               this._triggerHistory[code] = false;
               continue outter;
             }
@@ -38,6 +39,7 @@ export class ShortcutManager {
     });
 
     document.addEventListener('keyup', e => {
+      console.log(e.keyCode);
       delete this._keyActionHistory[e.keyCode];
     });
   }
