@@ -12,7 +12,6 @@ export const loadMaterial = async (data: ImageTileManager, containerImage: Array
 	let sprite: Array<PIXI.Sprite> = [];
 
 	for (let i = 0; i < data.images.length; ++i) {
-		console.log(data.images[i]);
 		sprite.push(PIXI.Sprite.from(data.images[i]));
 	}
 
@@ -26,7 +25,6 @@ const materialToUrl = async (img: Array<String>, container: Array<String>): Prom
 
 	for (let i = 0; i < img.length; ++i) {
 		container.push(resourceList[img[i].toString()]);
-		//container.push(CG.Base.getAppResourceFileUrl(img[i].toString()));
 	}
 
 	return;
