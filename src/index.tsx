@@ -17,7 +17,7 @@ import hotkeys from 'hotkeys-js';
 export let resourceList = {
     'tileset_0': tileset_0
 };
-
+export const emiter: PIXI.utils.EventEmitter = new PIXI.utils.EventEmitter();
 export const loader = PIXI.Loader.shared;
 export const mapViewer: PIXI.Application = new PIXI.Application({
     width: window.innerWidth,
@@ -55,13 +55,15 @@ loader.load((loader, resources) => {
             let record: Action = undoRecord.pop();
             record.undo(record.param);
             redoRecord.push(record);
+            emiter.emit('undo/redo');
         });
 
-        hotkeys('ctrl+x, command+x', () => {
+        hotkeys('ctrl+y, shift+command+z', () => {
             if (!redoRecord.length) return;
             let record: Action = redoRecord.pop();
             record.redo(record.param);
             undoRecord.push(record);
+            emiter.emit('undo/redo');
         });
 
         myMap.onClick = (x: number, y: number, Click: Click) => {
@@ -71,6 +73,8 @@ loader.load((loader, resources) => {
                 redo: (obj) => myMap.stack(obj.x, obj.y, { r: '0', i: 63, layer: 1 }),
                 param: { x: x, y: y }
             } as Action);
+            emiter.emit('click', { x: x, y: y, tile: { r: '0', i: 63, layer: 1 } });
+            emiter.emit('undo/redo');
         }
         mapViewer.stage.addChild(myMap);
         ReactDOM.render(<App />, document.getElementById('root'));

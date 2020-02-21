@@ -15,6 +15,8 @@ A new tiled map editor for Twilight Wars! The code of this editor has been rewri
 # 快捷鍵
 
 1. Right click － open / close right-side panel (顯示／隱藏右方控制板)
+2. Ctrl + z  － undo
+3. Ctrl + Y / Shift + CMD + Z - redo
 
 # 測試
 

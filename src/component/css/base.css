@@ -59,4 +59,15 @@ body {
     padding: 10px 10px 10px 10px;
     color: rgb(266, 266, 266);
     position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.divider {
+    background-color: rgb(126, 126, 126);
+    width: 1px;
+    height: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
