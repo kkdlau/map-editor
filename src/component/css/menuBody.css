@@ -1,15 +1,18 @@
 .menu-body {
     position: absolute;
-    width: 220px;
+    width: 284px;
     height: 100%;
     right: 0;
     top: 0;
     background: #424242;
+    padding-top: 8px;
 }
 
 .page-title {
     display: flex;
     background: #292929;
+    margin-left: 7px;
+    margin-right: 7px;
 }
 
 .page-title div {
@@ -49,11 +52,12 @@
 }
 
 .material-box {
-    height: calc(100% - 110px);
+    height: calc(100% - 118px);
     overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .material-image-box {

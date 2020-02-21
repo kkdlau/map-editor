@@ -49,8 +49,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 	}
 
 	componentDidMount() {
-		// pageTitle('built-in');
-		// classificationTitle('floor');
+		pageTitle('built-in');
+		classificationTitle('floor');
 	}
 
 	render() {
@@ -67,6 +67,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 						<div id='floor' className='button' onClick={classificationTitle.bind(this, 'floor')}>地板</div>
 						<div id='wall' className='button' onClick={classificationTitle.bind(this, 'wall')}>牆壁</div>
 						<div id='object' className='button' onClick={classificationTitle.bind(this, 'object')}>物件</div>
+						<div id='group' className='button' onClick={classificationTitle.bind(this, 'group')}>群組</div>
 					</div>
 					<div className='material-box'>
 						{this.state.materialPosition.map((data: any, idx) => {
