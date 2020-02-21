@@ -1,4 +1,4 @@
-import { emiter } from '..';
+import { emitter } from '..';
 import { TileSprite, PhysicsTile } from './TileSprite';
 import { MapPoint } from './MapPoint';
 import { shortcutManager } from './ShortcutManager';
@@ -151,7 +151,7 @@ export class EditableMap extends PIXI.Container {
         shortcutManager.on('D', [Key.D], () => this._shiftMap({ x: -30 }));
         shortcutManager.on('W', [Key.W], () => this._shiftMap({ y: 30 }));
         shortcutManager.on('S', [Key.S], () => this._shiftMap({ y: -30 }));
-        emiter.on('physics_layer', this._switchPhysicsLayer.bind(this));
+        emitter.on('physics_layer', this._switchPhysicsLayer.bind(this));
 
     }
 
@@ -319,7 +319,7 @@ export class EditableMap extends PIXI.Container {
         shortcutManager.off('S');
         shortcutManager.off('W');
         shortcutManager.off('D');
-        emiter.off('physics_layer', this._switchPhysicsLayer);
+        emitter.off('physics_layer', this._switchPhysicsLayer);
         this.destroy();
     }
 }

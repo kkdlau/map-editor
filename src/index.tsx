@@ -18,7 +18,7 @@ import MapObjects from './assets/object_group.json';
 export let resourceList = {
     'tileset_0': tileset_0
 };
-export const emiter: PIXI.utils.EventEmitter = new PIXI.utils.EventEmitter();
+export const emitter: PIXI.utils.EventEmitter = new PIXI.utils.EventEmitter();
 export const loader = PIXI.Loader.shared;
 export const mapViewer: PIXI.Application = new PIXI.Application({
     width: window.innerWidth,
@@ -40,7 +40,7 @@ for (let r in resourceList) {
 
 let selected = 63;
 
-emiter.on('selected_tile', (id: number) => {
+emitter.on('selected_tile', (id: number) => {
     selected = id;
 });
 
@@ -55,6 +55,7 @@ loader.load((loader, resources) => {
 
         shortcutManager.on('physics', [Key.V], () => {
             myMap.showPhysicsLayer = !myMap.showPhysicsLayer;
+            emitter.emit('physics_layer', myMap.showPhysicsLayer);
         });
 
         hotkeys('ctrl+z, command+z', () => {
@@ -63,7 +64,7 @@ loader.load((loader, resources) => {
             let record: Action = JSON.parse(actionString);
             record.undo(record.param);
             redoRecord.push(actionString);
-            emiter.emit('undo/redo');
+            emitter.emit('undo/redo');
         });
 
         hotkeys('ctrl+y, shift+command+z', () => {
@@ -72,7 +73,7 @@ loader.load((loader, resources) => {
             let record: Action = JSON.parse(actionString);
             record.redo(record.param);
             undoRecord.push(actionString);
-            emiter.emit('undo/redo');
+            emitter.emit('undo/redo');
         });
 
         myMap.onClick = (x: number, y: number, click: Click) => {

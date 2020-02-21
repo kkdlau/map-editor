@@ -7,10 +7,8 @@ import { classificationTitle } from './classificationTitle';
 import { loadMaterial } from './loadMaterial';
 import { materialClick } from './materialClick';
 import { ZoomSlider } from './ZoomSlider';
-import { Button } from '@material-ui/core';
-import ShortcutPanel from './ShortcutPanel';
 import FunctionBar from './FunctionBar';
-import { emiter } from '..';
+import { emitter } from '..';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -73,7 +71,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 						{this.state.materialPosition.map((data: any, idx) => {
 							return (
 								<div className='material-image-box button' id={`material-image-box${idx}`} onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
-									<img onClick={() => emiter.emit('selected_tile', idx)} src={this.state.materialImage[data.imgIdx].toString()} draggable="false" style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }} />
+									<img alt="tile set" onClick={() => emitter.emit('selected_tile', idx)} src={this.state.materialImage[data.imgIdx].toString()} draggable="false" style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }} />
 								</div>
 							)
 						})}
