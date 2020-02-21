@@ -6,6 +6,15 @@ import * as serviceWorker from './serviceWorker';
 import { ImageTileManager } from './lib/ImageTileManager';
 import * as PIXI from 'pixi.js';
 import tileset_0 from './assets/tileset_0.png';
+import tileset_1 from './assets/tileset_1.png';
+import tileset_2 from './assets/tileset_2.png';
+import tileset_3 from './assets/tileset_3.png';
+import tileset_4 from './assets/tileset_4.png';
+import tileset_5 from './assets/tileset_5.png';
+import tileset_6 from './assets/tileset_6.png';
+import tileset_7 from './assets/tileset_7.png';
+import tileset_8 from './assets/tileset_8.png';
+import tileset_9 from './assets/tileset_9.png';
 import jsonData from './assets/decoded.json';
 import { EditableMap, Click } from './lib/EditableMap';
 import { Action, undoRecord, redoRecord } from './lib/undoRedo';
@@ -16,7 +25,17 @@ import MapObjects from './assets/object_group.json';
 
 // manage the relationship between alias and data.
 export let resourceList = {
-    'tileset_0': tileset_0
+    'tileset_0': tileset_0,
+    'tileset_1': tileset_1,
+    'tileset_2': tileset_2,
+    'tileset_3': tileset_3,
+    'tileset_4': tileset_4,
+    'tileset_5': tileset_5,
+    'tileset_6': tileset_6,
+    'tileset_7': tileset_7,
+    'tileset_8': tileset_8,
+    'tileset_9': tileset_9,
+    'length': 10,
 };
 export const emitter: PIXI.utils.EventEmitter = new PIXI.utils.EventEmitter();
 export const loader = PIXI.Loader.shared;

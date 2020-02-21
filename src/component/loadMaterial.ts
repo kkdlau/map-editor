@@ -11,20 +11,20 @@ export const loadMaterial = async (data: ImageTileManager, containerImage: Array
 
 	let sprite: Array<PIXI.Sprite> = [];
 
-	for (let i = 0; i < data.images.length; ++i) {
-		sprite.push(PIXI.Sprite.from(data.images[i]));
+	for (let i = 0; i < resourceList.length; ++i) {
+		sprite.push(PIXI.Sprite.from(resourceList['tileset_' + i]));
 	}
 
-	materialToUrl(data.images, containerImage);
+	materialToUrl(containerImage);
 	spritePosition(sprite, containerPosition);
 
 	return;
 }
 
-const materialToUrl = async (img: Array<String>, container: Array<String>): Promise<void> => {
+const materialToUrl = async (container: Array<String>): Promise<void> => {
 
-	for (let i = 0; i < img.length; ++i) {
-		container.push(resourceList[img[i].toString()]);
+	for (let i = 0; i < resourceList.length; ++i) {
+		container.push(resourceList['tileset_' + i]);
 	}
 
 	return;
