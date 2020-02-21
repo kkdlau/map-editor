@@ -11,6 +11,10 @@ body {
     overflow: hidden;
 }
 
+canvas {
+    margin-top: 50px;
+}
+
 #root {
     z-index: 100;
 }
