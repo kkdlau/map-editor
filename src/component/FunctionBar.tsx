@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, TextField, IconButton, Tooltip } from '@material-ui/core';
+import { Button, TextField, IconButton, Tooltip, Switch } from '@material-ui/core';
 import Undo from '@material-ui/icons/Undo';
 import Redo from '@material-ui/icons/Redo';
 import { Action, undoRecord, redoRecord } from '../lib/undoRedo';
@@ -52,10 +52,13 @@ class FunctionBar extends Component<Props, State> {
                         <Undo />
                     </Tooltip>
                 </IconButton>
-                <div className="divider"></div>
                 <IconButton size="small" disabled={redoRecord.length == 0} style={{ marginLeft: '10px', marginRight: '10px' }} onClick={this.redo}>
                     <Tooltip title="redo"><Redo /></Tooltip>
                 </IconButton>
+                <div className="divider"></div>
+                <div>Physics layer:</div>
+                <Switch onChange={e => emiter.emit('physics_layer', e.target.checked)}></Switch>
+                <div className="divider"></div>
             </div>
         )
     }
