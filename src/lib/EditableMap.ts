@@ -82,7 +82,15 @@ export class EditableMap extends PIXI.Container {
             if (this._startDrag) {
                 let c: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this)).toMapSys();
                 this.removeChild(this._draggingArea);
-                this.onDrag && this.onDrag(this._startDrag.x, this._startDrag.y, c.x, c.y);
+                let min = {
+                    x: Math.max(0, Math.min(this._startDrag.x, c.x)),
+                    y: Math.max(0, Math.min(this._startDrag.y, c.y))
+                };
+                let max = {
+                    x: Math.min(Math.max(c.x, this._startDrag.x), this.mapWidth - 1),
+                    y: Math.min(Math.max(c.y, this._startDrag.y), this.mapHeight - 1)
+                };
+                this.onDrag && this.onDrag(min.x, min.y, max.x, max.y);
                 this._startDrag = null;
             } else {
                 // normal click
@@ -217,20 +225,33 @@ export class EditableMap extends PIXI.Container {
         return image;
     }
 
-	/**
-	 * Calculate the path from starting point to ending point by astar algorithm.
-	 * 
-	 * @param {MapPoint} start starting point
-	 * @param {MapPoint} end ending point
-	 * 
-	 * @return {MapPoint[]} An array describles the path by points
-	 */
-    public astar(start: MapPoint, end: MapPoint): MapPoint[] {
-        let path: MapPoint[] = [
-        ];
-        let openList: MapPoint[] = [start];
-        let closeList: string[] = [];
-        return path;
+    /**
+     * Pass a region and export the region as map object.
+     * @param x1 x coordinate of starting position
+     * @param y1 y coordinate of starting position
+     * @param x2 x coordinate of ending position
+     * @param y2 y coordinate of ending position
+     */
+    public exportMapObject(x1: number, y1: number, x2: number, y2: number): Array<Object> {
+        let obj: Array<Object> = [];
+
+        for (let x: number = x1; x <= x2; x++) {
+            for (let y: number = y1; y <= y2; y++) {
+                const index: string = x + ',' + y;
+                const spriteList: Array<TileSprite> = this._editableTile[index];
+                const topTile: TileSprite = spriteList[spriteList.length - 1];
+                obj.push({
+                    offset: {
+                        x: x - x1,
+                        y: y - y1
+                    },
+                    r: topTile.r.toString(),
+                    i: topTile.i,
+                    layer: topTile.layer
+                });
+            }
+        }
+        return obj;
     }
 
 	/**
@@ -257,6 +278,7 @@ export class EditableMap extends PIXI.Container {
 	 * @param {Tile} tile tile data
 	 */
     public stack(x: number, y: number, tile: Tile): void {
+        if (x >= this.mapWidth || y >= this.mapHeight || x < 0 || y < 0) return;
         let last: TileSprite = this._editableTile[x + ',' + y][this._editableTile[x + ',' + y].length - 1];
         if (last.r === tile.r && last.i === tile.i) return;
         let image: TileSprite = this._createImageTile(x, y, tile.r, tile.i, tile.layer);

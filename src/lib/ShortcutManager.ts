@@ -1,4 +1,3 @@
-import { Key } from './key';
 export enum KeyAction {
   PRESS,
   DOWN,

@@ -5,7 +5,7 @@ export interface Action {
 }
 
 // store all records that can undo.
-export const undoRecord: Array<Action> = [];
+export const undoRecord: Array<string> = [];
 
 // store all records that can redo.
-export const redoRecord: Array<Action> = [];
+export const redoRecord: Array<string> = [];
