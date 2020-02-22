@@ -23,21 +23,17 @@ class FunctionBar extends Component<Props, State> {
 
     undo = (): void => {
         if (!undoRecord.length) return;
-        let actionString: string = undoRecord.pop();
-        console.log(actionString);
-        let record: Action = JSON.parse(actionString);
+        let record: Action = undoRecord.pop();
         record.undo(record.param);
-        redoRecord.push(actionString);
+        redoRecord.push(record);
         this.forceUpdate();
     }
 
     redo = (): void => {
         if (!redoRecord.length) return;
-        let actionString: string = redoRecord.pop();
-        console.log(actionString);
-        let record: Action = JSON.parse(actionString);
+        let record: Action = redoRecord.pop();
         record.redo(record.param);
-        undoRecord.push(actionString);
+        undoRecord.push(record);
         this.forceUpdate();
     }
 

@@ -12,6 +12,7 @@ import { Action, undoRecord, redoRecord } from './lib/undoRedo';
 import { shortcutManager } from './lib/ShortcutManager';
 import { Key } from './lib/key';
 import hotkeys from 'hotkeys-js';
+import { deepFreeze } from './lib/DeepFreeze';
 import MapObjects from './assets/object_group.json';
 
 // manage the relationship between alias and data.
@@ -27,6 +28,7 @@ export const mapViewer: PIXI.Application = new PIXI.Application({
 mapViewer.view.style.overflow = 'hidden';
 mapViewer.view.style.zIndex = "-1";
 mapViewer.renderer.autoDensity = true;
+mapViewer.view.oncontextmenu = () => false;
 
 window.onresize = () => {
     mapViewer.renderer.resize(window.innerWidth, window.innerHeight);
@@ -60,43 +62,41 @@ loader.load((loader, resources) => {
 
         hotkeys('ctrl+z, command+z', () => {
             if (!undoRecord.length) return;
-            let actionString: string = undoRecord.pop();
-            let record: Action = JSON.parse(actionString);
+            let record: Action = undoRecord.pop();
             record.undo(record.param);
-            redoRecord.push(actionString);
+            redoRecord.push(record);
             emitter.emit('undo/redo');
         });
 
         hotkeys('ctrl+y, shift+command+z', () => {
             if (!redoRecord.length) return;
-            let actionString: string = redoRecord.pop();
-            let record: Action = JSON.parse(actionString);
+            let record: Action = redoRecord.pop();
             record.redo(record.param);
-            undoRecord.push(actionString);
+            undoRecord.push(record);
             emitter.emit('undo/redo');
         });
 
         myMap.onClick = (x: number, y: number, click: Click) => {
-            for (let i = MapObjects['house_h'].length - 1; i >= 0; --i) {
-                let combination = MapObjects['house_h'][i];
-                myMap.stack(x + combination.offset.x, y + combination.offset.y, {
-                    r: combination.r,
-                    i: combination.i,
-                    layer: combination.layer
-                });
+            if (click === Click.RIGHT) {
+                for (let i = MapObjects['house_h'].length - 1; i >= 0; --i) {
+                    let combination = MapObjects['house_h'][i];
+                    myMap.stack(x + combination.offset.x, y + combination.offset.y, {
+                        r: combination.r,
+                        i: combination.i,
+                        layer: combination.layer
+                    });
+                }
+            } else {
+                myMap.stack(x, y, { r: '0', i: selected, layer: 0 }) && undoRecord.push(deepFreeze({
+                    undo: (obj) => myMap.delete(obj.x, obj.y),
+                    redo: (obj) => myMap.stack(obj.x, obj.y, obj.tile),
+                    param: { x: x, y: y, tile: { r: '0', i: selected, layer: 2 } }
+                }) as Action) && emitter.emit('undo/redo');
             }
-            // myMap.stack(x, y, { r: '0', i: selected, layer: 2 });
-            // let action: string = JSON.stringify({
-            //     undo: (obj) => myMap.delete(obj.x, obj.y),
-            //     redo: (obj) => myMap.stack(obj.x, obj.y, { r: '0', i: selected, layer: 1 }),
-            //     param: { x: x, y: y }
-            // });
-            // undoRecord.push(action);
-            // emiter.emit('undo/redo');
         }
 
         myMap.onDrag = (x1, y1, x2, y2): void => {
-            console.log(JSON.stringify(myMap.exportMapObject(x1, y1, x2, y2)));
+            //console.log(JSON.stringify(myMap.exportMapObject(x1, y1, x2, y2)));
         }
         mapViewer.stage.addChild(myMap);
         ReactDOM.render(<App />, document.getElementById('root'));

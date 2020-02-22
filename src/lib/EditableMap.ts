@@ -80,8 +80,12 @@ export class EditableMap extends PIXI.Container {
         });
 
         this.on('mouseup', (e: PIXI.interaction.InteractionEvent) => {
-            if (this._startDrag) {
-                let c: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this)).toMapSys();
+            let c: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this))
+                .addXY(-this._tile.x, -this._tile.y)
+                .toMapSys();
+            if (e.data.originalEvent.which == 2) {
+                this.onClick && this.onClick(c.x, c.y, Click.RIGHT);
+            } else if (this._startDrag) {
                 this.removeChild(this._draggingArea);
                 let min = {
                     x: Math.max(0, Math.min(this._startDrag.x, c.x)),
@@ -95,15 +99,16 @@ export class EditableMap extends PIXI.Container {
                 this._startDrag = null;
             } else {
                 // normal click
-                let result: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this))
-                    .addXY(-this._tile.x, -this._tile.y)
-                    .toMapSys();
-                this.onClick && this.onClick(result.x, result.y, Click.LEFT);
+                this.onClick && this.onClick(c.x, c.y, Click.LEFT);
             }
         });
 
         this.on('rightclick', (e: PIXI.interaction.InteractionEvent) => {
-
+            console.log('right');
+            let result: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this))
+                .addXY(-this._tile.x, -this._tile.y)
+                .toMapSys();
+            this.onClick && this.onClick(result.x, result.y, Click.LEFT);
         });
 
         if (data) {
@@ -284,15 +289,16 @@ export class EditableMap extends PIXI.Container {
 	 * @param {number} y y coordinate of the point
 	 * @param {Tile} tile tile data
 	 */
-    public stack(x: number, y: number, tile: Tile): void {
-        if (x >= this.mapWidth || y >= this.mapHeight || x < 0 || y < 0) return;
+    public stack(x: number, y: number, tile: Tile): boolean {
+        if (x >= this.mapWidth || y >= this.mapHeight || x < 0 || y < 0) return false;
         let last: TileSprite = this._editableTile[x + ',' + y][this._editableTile[x + ',' + y].length - 1];
-        if (last.r === tile.r && last.i === tile.i) return;
+        if (last.r === tile.r && last.i === tile.i) return false;
         let image: TileSprite = this._createImageTile(x, y, tile.r, tile.i, tile.layer);
         this._editableTile[x + ',' + y].push(image);
         this._editablePhysics[x + ',' + y].layer = tile.layer;
 
         this._tile.addChild(image);
+        return true;
     }
 
 	/**
