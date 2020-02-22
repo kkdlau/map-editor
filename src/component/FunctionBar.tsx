@@ -4,7 +4,7 @@ import Undo from '@material-ui/icons/Undo';
 import Redo from '@material-ui/icons/Redo';
 import { Action, undoRecord, redoRecord } from '../lib/undoRedo';
 import { emitter } from '..';
-
+import Help from '@material-ui/icons/Help';
 interface Props {
 
 }
@@ -55,6 +55,12 @@ class FunctionBar extends Component<Props, State> {
         return (
             <div className="function-bar">
                 {/* <TextField style={{ marginLeft: '10px', marginRight: '10px' }} size="small" defaultValue="unnamed_map.twmap" placeholder="file name" /> */}
+                <IconButton size="small"
+                    style={{ marginLeft: '10px', marginRight: '10px' }}
+                    onClick={() => window.open('https://hackmd.io/@SakiOCVjRi6switvKe2CNw/twmap_editor_guideline', '_new')}>
+                    <Help />
+                </IconButton>
+                <div className="divider"></div>
                 <IconButton size="small" disabled={undoRecord.length === 0} style={{ marginLeft: '10px', marginRight: '10px' }} onClick={this.undo}>
                     <Tooltip title="Undo">
                         <Undo />
