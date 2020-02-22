@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.6f888ae0.chunk.css",
-    "main.js": "/static/js/main.65908b44.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.29b8cc05.js",
-    "static/js/2.4212be57.chunk.js": "/static/js/2.4212be57.chunk.js",
-    "index.html": "/index.html",
-    "precache-manifest.9c7460c29e95a72d5a671e5fce92cfdf.js": "/precache-manifest.9c7460c29e95a72d5a671e5fce92cfdf.js",
-    "service-worker.js": "/service-worker.js",
-    "static/js/2.4212be57.chunk.js.LICENSE.txt": "/static/js/2.4212be57.chunk.js.LICENSE.txt",
-    "static/media/tileset_0.png": "/static/media/tileset_0.6be70081.png",
-    "static/media/tileset_1.png": "/static/media/tileset_1.b1a316a6.png",
-    "static/media/tileset_2.png": "/static/media/tileset_2.cd53c9c1.png",
-    "static/media/tileset_3.png": "/static/media/tileset_3.a0309325.png",
-    "static/media/tileset_4.png": "/static/media/tileset_4.c7a63559.png",
-    "static/media/tileset_5.png": "/static/media/tileset_5.bdff645c.png",
-    "static/media/tileset_6.png": "/static/media/tileset_6.7b223283.png",
-    "static/media/tileset_7.png": "/static/media/tileset_7.20a81f28.png",
-    "static/media/tileset_8.png": "/static/media/tileset_8.63e0fb4f.png",
-    "static/media/tileset_9.png": "/static/media/tileset_9.90094cf3.png"
+    "main.css": "./static/css/main.6f888ae0.chunk.css",
+    "main.js": "./static/js/main.2032c563.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.0b589366.js",
+    "static/js/2.4212be57.chunk.js": "./static/js/2.4212be57.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.4022f3797ba93e2fe5a5552f2de6ca05.js": "./precache-manifest.4022f3797ba93e2fe5a5552f2de6ca05.js",
+    "service-worker.js": "./service-worker.js",
+    "static/js/2.4212be57.chunk.js.LICENSE.txt": "./static/js/2.4212be57.chunk.js.LICENSE.txt",
+    "static/media/tileset_0.png": "./static/media/tileset_0.6be70081.png",
+    "static/media/tileset_1.png": "./static/media/tileset_1.b1a316a6.png",
+    "static/media/tileset_2.png": "./static/media/tileset_2.cd53c9c1.png",
+    "static/media/tileset_3.png": "./static/media/tileset_3.a0309325.png",
+    "static/media/tileset_4.png": "./static/media/tileset_4.c7a63559.png",
+    "static/media/tileset_5.png": "./static/media/tileset_5.bdff645c.png",
+    "static/media/tileset_6.png": "./static/media/tileset_6.7b223283.png",
+    "static/media/tileset_7.png": "./static/media/tileset_7.20a81f28.png",
+    "static/media/tileset_8.png": "./static/media/tileset_8.63e0fb4f.png",
+    "static/media/tileset_9.png": "./static/media/tileset_9.90094cf3.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.29b8cc05.js",
+    "static/js/runtime-main.0b589366.js",
     "static/js/2.4212be57.chunk.js",
     "static/css/main.6f888ae0.chunk.css",
-    "static/js/main.65908b44.chunk.js"
+    "static/js/main.2032c563.chunk.js"
   ]
 }
