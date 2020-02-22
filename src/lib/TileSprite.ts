@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js';
 
 const physicsVisualization: number[] = [
-    0xf5f5f5,
-    0xd4e157,
-    0x26a69a,
-    0x42a5f5
+    0x846b8a,
+    0x6b798a,
+    0x6b8a78,
+    0x888a6b
 ];
 
 export class TileSprite extends PIXI.Sprite {
@@ -48,8 +48,8 @@ export class PhysicsTile extends PIXI.Graphics {
             color = (physicsVisualization[Math.ceil(layer)] + physicsVisualization[Math.floor(layer)]) / 2;
         }
         this.lineStyle(3, color, 0.5);
-        this.beginFill(color, 0.3);
-        this.drawRect(0, 0, 32, 32);
+        this.beginFill(color, 0.6);
+        this.drawRect(1, 1, 30, 30);
         this.endFill();
     }
 
