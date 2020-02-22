@@ -10,6 +10,7 @@ import { emitter } from '..';
 import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
 import { CircularProgress } from '@material-ui/core';
+import deleteTWTile from './deleteTWTile.json'
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -79,18 +80,19 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 					<div className='material-box'>
 						{this.state.loaded ?
 							this.state.materialPosition.map((data: any, idx) => {
-								return (
-									<div className='material-image-box button'
-										id={`material-image-box${idx}`}
-										onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
-										<img alt="tile set"
-											onClick={() => emitter.emit('selected_tile', idx)}
-											src={this.state.materialImage[data.imgIdx].toString()}
-											draggable="false"
-											style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }}
-										/>
-									</div>
-								)
+								if (deleteTWTile.removeAt.split(',')[idx] != '1')
+									return (
+										<div className='material-image-box button'
+											id={`material-image-box${idx}`}
+											onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
+											<img alt="tile set"
+												onClick={() => emitter.emit('selected_tile', idx)}
+												src={this.state.materialImage[data.imgIdx].toString()}
+												draggable="false"
+												style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }}
+											/>
+										</div>
+									)
 							}) : <div style={{ margin: 'auto' }}>
 								<CircularProgress />
 							</div>}
