@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "TWMAP Editor",
+  "name": "Twilight Wars Map Editor Web version",
   "icons": [
     {
       "src": "favicon.ico",

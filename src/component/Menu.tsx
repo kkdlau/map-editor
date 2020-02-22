@@ -57,7 +57,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 				<div className='menu-body' id='menu-body'>
 
 					<ButtonGroup className='page-title'
-						selectedStyle={{ background: '#424242' }}
+						selectedStyle={{ background: '#424242', border: 'solid 2px' }}
 						defaultValue={"built-in"}
 						choose={(alias: string, last: string) => {
 							console.log(alias);
@@ -68,6 +68,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 					</ButtonGroup>
 
 					<ButtonGroup className='classification-title'
+						selectedStyle={{ background: '#424242', border: 'solid 2px' }}
 						defaultValue={"floor"}
 						choose={(alias: string, last: string) => {
 							console.log(alias);
