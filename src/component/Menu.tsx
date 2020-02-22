@@ -2,13 +2,13 @@ import React from 'react';
 import './css/menuBody.css';
 import './css/base.css';
 import { ImageTileManager } from '../lib/ImageTileManager';
-import { pageTitle } from './pageTitle';
-import { classificationTitle } from './classificationTitle';
 import { loadMaterial } from './loadMaterial';
 import { materialClick } from './materialClick';
 import { ZoomSlider } from './ZoomSlider';
 import FunctionBar from './FunctionBar';
 import { emitter } from '..';
+import ButtonGroup from './ButtonGroup';
+import TabButton from './TabButton';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -46,32 +46,46 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 		});
 	}
 
-	componentDidMount() {
-		pageTitle('built-in');
-		classificationTitle('floor');
-	}
-
 	render() {
 		return (
 			<div className="app-layout">
 				<FunctionBar />
 				<div className='menu-body' id='menu-body'>
-					<div className='page-title'>
-						<div id='built-in' className='button' onClick={pageTitle.bind(this, 'built-in')}>內建</div>
-						<div id='custom' className='button' onClick={pageTitle.bind(this, 'custom')}>自訂</div>
-						<div id='common' className='button' onClick={pageTitle.bind(this, 'common')}>常用</div>
-					</div>
-					<div className='classification-title'>
-						<div id='floor' className='button' onClick={classificationTitle.bind(this, 'floor')}>地板</div>
-						<div id='wall' className='button' onClick={classificationTitle.bind(this, 'wall')}>牆壁</div>
-						<div id='object' className='button' onClick={classificationTitle.bind(this, 'object')}>物件</div>
-						<div id='group' className='button' onClick={classificationTitle.bind(this, 'group')}>群組</div>
-					</div>
+
+					<ButtonGroup className='page-title'
+						selectedStyle={{ background: '#424242' }}
+						defaultValue={"built-in"}
+						choose={(alias: string, last: string) => {
+							console.log(alias);
+						}}>
+						<TabButton className='button' alias="built-in">內建</TabButton>
+						<TabButton className='button' alias="custom">自訂</TabButton>
+						<TabButton className='button' alias="common">常用</TabButton>
+					</ButtonGroup>
+
+					<ButtonGroup className='classification-title'
+						defaultValue={"floor"}
+						choose={(alias: string, last: string) => {
+							console.log(alias);
+						}}>
+						<TabButton className='button' alias="floor">地板</TabButton>
+						<TabButton className='button' alias="wall">牆壁</TabButton>
+						<TabButton className='button' alias="object">物件</TabButton>
+						<TabButton className='button' alias="group">群組</TabButton>
+					</ButtonGroup>
+
 					<div className='material-box'>
 						{this.state.materialPosition.map((data: any, idx) => {
 							return (
-								<div className='material-image-box button' id={`material-image-box${idx}`} onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
-									<img alt="tile set" onClick={() => emitter.emit('selected_tile', idx)} src={this.state.materialImage[data.imgIdx].toString()} draggable="false" style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }} />
+								<div className='material-image-box button'
+									id={`material-image-box${idx}`}
+									onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
+									<img alt="tile set"
+										onClick={() => emitter.emit('selected_tile', idx)}
+										src={this.state.materialImage[data.imgIdx].toString()}
+										draggable="false"
+										style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }}
+									/>
 								</div>
 							)
 						})}

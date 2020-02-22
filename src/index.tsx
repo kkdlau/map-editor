@@ -37,6 +37,7 @@ export let resourceList = {
     'tileset_8': tileset_8,
     'tileset_9': tileset_9,
 };
+
 export const emitter: PIXI.utils.EventEmitter = new PIXI.utils.EventEmitter();
 export const loader = PIXI.Loader.shared;
 export const mapViewer: PIXI.Application = new PIXI.Application({
