@@ -1,6 +1,3 @@
-if [ -d "./docs"]; then
-     rm -rf ./docs && rmdir ./docs
-fi
-
+test -e ./docs && rm -rf ./docs && rmdir ./docs
 npm run build
 mv ./build ./docs
