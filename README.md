@@ -35,3 +35,8 @@ You can press `Control + C` on terminal to quit the debugging.
 之後，輸入`npm start`便可以開始測試。
 
 在命令行按下`Control + C`可以停止測試。
+
+
+# 建立成品
+
+在命令行輸入`sh deployment.sh`
