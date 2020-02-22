@@ -9,6 +9,7 @@ import FunctionBar from './FunctionBar';
 import { emitter } from '..';
 import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
+import { CircularProgress } from '@material-ui/core';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -33,16 +34,19 @@ interface MenuProps {
 interface MenuState {
 	materialImage: Array<String>,
 	materialPosition: Array<Object>,
-	settingPanel: boolean
+	settingPanel: boolean,
+	loaded: boolean
 }
 
 export class Menu extends React.Component<MenuProps, MenuState> {
 
 	constructor(props: MenuProps, context?: any) {
 		super(props, context);
-		this.state = { materialImage: [], materialPosition: [], settingPanel: false };
+		this.state = { materialImage: [], materialPosition: [], settingPanel: false, loaded: false };
 		loadMaterial(this.props.manager, this.state.materialImage, this.state.materialPosition).then(() => {
-			this.setState({});
+			this.setState({
+				loaded: true
+			});
 		});
 	}
 
@@ -75,20 +79,23 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 					</ButtonGroup>
 
 					<div className='material-box'>
-						{this.state.materialPosition.map((data: any, idx) => {
-							return (
-								<div className='material-image-box button'
-									id={`material-image-box${idx}`}
-									onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
-									<img alt="tile set"
-										onClick={() => emitter.emit('selected_tile', idx)}
-										src={this.state.materialImage[data.imgIdx].toString()}
-										draggable="false"
-										style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }}
-									/>
-								</div>
-							)
-						})}
+						{this.state.loaded ?
+							this.state.materialPosition.map((data: any, idx) => {
+								return (
+									<div className='material-image-box button'
+										id={`material-image-box${idx}`}
+										onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
+										<img alt="tile set"
+											onClick={() => emitter.emit('selected_tile', idx)}
+											src={this.state.materialImage[data.imgIdx].toString()}
+											draggable="false"
+											style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }}
+										/>
+									</div>
+								)
+							}) : <div style={{ margin: 'auto' }}>
+								<CircularProgress />
+							</div>}
 					</div>
 				</div>
 				<ZoomSlider />
