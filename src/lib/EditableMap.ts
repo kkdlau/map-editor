@@ -7,7 +7,7 @@ import { DraggingChecker } from './DraggingCheck';
 import { Key } from './key';
 import * as PIXI from 'pixi.js';
 
-interface MapData {
+export interface MapData {
     rows: number,
     tiles: Object,
     objects: Object,
@@ -83,7 +83,7 @@ export class EditableMap extends PIXI.Container {
             let c: MapPoint = MapPoint.fromPoint(e.data.getLocalPosition(this))
                 .addXY(-this._tile.x, -this._tile.y)
                 .toMapSys();
-            if (e.data.originalEvent.which == 2) {
+            if (e.data.originalEvent.which === 2) {
                 this.onClick && this.onClick(c.x, c.y, Click.RIGHT);
             } else if (this._startDrag) {
                 this.removeChild(this._draggingArea);
@@ -318,6 +318,17 @@ export class EditableMap extends PIXI.Container {
 
     public set showHoverEffect(set: boolean) {
         set ? this.addChild(this._hoverGraphics) : this.removeChild(this._hoverGraphics);
+    }
+
+    public exportToTWMAP(): Promise<void> {
+        return new Promise<void>((resolve) => {
+            let map: MapData = {} as MapData;
+            map.rows = this.mapHeight;
+            map.cols = this.mapWidth;
+            map.objects = {};
+            map.tileW = map.tileH = 32;
+
+        });
     }
 
     public dsipose(): void {
