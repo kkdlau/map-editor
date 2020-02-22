@@ -38,6 +38,18 @@ export let resourceList = {
     'tileset_9': tileset_9,
 };
 
+export const download = (data, fileAlias, type) => {
+    let file: Blob = new Blob([data], { type: type });
+    let a: HTMLAnchorElement = document.createElement('a');
+    let url: string = URL.createObjectURL(file);
+    a.href = url;
+    a.download = fileAlias;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+}
+
 export const emitter: PIXI.utils.EventEmitter = new PIXI.utils.EventEmitter();
 export const loader = PIXI.Loader.shared;
 export const mapViewer: PIXI.Application = new PIXI.Application({
