@@ -9,9 +9,11 @@ import FunctionBar from './FunctionBar';
 import { emitter } from '..';
 import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
-import { CircularProgress, Menu as MaterialMenu, PopoverPosition } from '@material-ui/core';
-import deleteTWTile from './deleteTWTile.json'
-import classification from './classification.json'
+import { CircularProgress, Menu as MaterialMenu, PopoverPosition, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import deleteTWTile from './json/deleteTWTile.json'
+import classification from './json/classification.json'
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -119,12 +121,10 @@ export class EditorUI extends React.Component<MenuProps, MenuState> {
 										<div className={'material-image-box button'}
 											id={`material-image-box${idx}`}
 											onAuxClick={(e) => {
-												let rect = e.currentTarget.getBoundingClientRect();
-												console.log(rect);
 												this.setState({
 													displayPos: {
-														left: rect.left + 284,
-														top: rect.top + 104
+														left: e.clientX,
+														top: e.clientY
 													},
 													selectedElement: e.currentTarget
 												});
@@ -153,7 +153,13 @@ export class EditorUI extends React.Component<MenuProps, MenuState> {
 					open={Boolean(this.state.selectedElement)}
 					onClose={() => this.setState({ selectedElement: null })}
 				>
-					<div>123123123</div>
+					<MenuItem>
+						<ListItemIcon style={{ minWidth: '40px' }}>
+							<FavoriteBorder fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>加入常用</ListItemText>
+					</MenuItem>
+
 				</MaterialMenu>
 				<ZoomSlider />
 			</div>
