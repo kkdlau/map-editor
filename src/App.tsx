@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from './component/Menu';
+import EditorUI from './component/EditorUI';
 import { manager } from '.';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
@@ -9,7 +9,7 @@ const theme = createMuiTheme({ "palette": { "type": 'dark', "common": { "black":
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Menu manager={manager} />
+      <EditorUI manager={manager} />
     </ThemeProvider>
   );
 }

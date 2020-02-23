@@ -39,7 +39,7 @@ interface MenuState {
 	displayPos: Object
 }
 
-export class Menu extends React.Component<MenuProps, MenuState> {
+export class EditorUI extends React.Component<MenuProps, MenuState> {
 
 	filterTitle: string = 'built-in';
 	filterClassification: string = 'floor';
@@ -161,4 +161,4 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 	}
 }
 
-export default Menu;
+export default EditorUI;
