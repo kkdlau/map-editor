@@ -11,7 +11,7 @@ export const loadMaterial = async (data: ImageTileManager, containerImage: Array
 	return new Promise<void>(resolve => {
 		let sprite: Array<PIXI.Sprite> = [];
 		for (let alias in resourceList) {
-			if (alias != "tileset_4")
+			if (alias !== "tileset_4")
 				sprite.push(PIXI.Sprite.from(resourceList[alias]));
 		}
 
@@ -25,7 +25,7 @@ export const loadMaterial = async (data: ImageTileManager, containerImage: Array
 const materialToUrl = async (container: Array<String>): Promise<void> => {
 	return new Promise<void>(resolve => {
 		for (let alias in resourceList) {
-			if (alias != "tileset_4")
+			if (alias !== "tileset_4")
 				container.push(resourceList[alias]);
 		}
 
