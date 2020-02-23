@@ -9,7 +9,7 @@ import FunctionBar from './FunctionBar';
 import { emitter } from '..';
 import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
-import { CircularProgress, Popover, Typography, Button } from '@material-ui/core';
+import { CircularProgress, Menu as MaterialMenu, PopoverPosition } from '@material-ui/core';
 import deleteTWTile from './deleteTWTile.json'
 import classification from './classification.json'
 
@@ -34,7 +34,9 @@ interface MenuState {
 	materialImage: Array<String>,
 	materialPosition: Array<Object>,
 	settingPanel: boolean,
-	loaded: boolean
+	loaded: boolean,
+	selectedElement: HTMLElement,
+	displayPos: Object
 }
 
 export class Menu extends React.Component<MenuProps, MenuState> {
@@ -44,7 +46,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
 	constructor(props: MenuProps, context?: any) {
 		super(props, context);
-		this.state = { materialImage: [], materialPosition: [], settingPanel: false, loaded: false };
+		this.state = {
+			displayPos: {},
+			materialImage: [],
+			materialPosition: [],
+			settingPanel: false,
+			loaded: false,
+			selectedElement: null,
+		};
 		loadMaterial(this.props.manager, this.state.materialImage, this.state.materialPosition).then(() => {
 			this.setState({
 				loaded: true
@@ -105,12 +114,21 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 					<div className='material-box'>
 						{this.state.loaded ?
 							this.state.materialPosition.map((data: any, idx) => {
-								if (deleteTWTile.removeAt.split(',')[idx] != '1' && this.filterClassification == classification[idx])
+								if (deleteTWTile.removeAt.split(',')[idx] !== '1' && this.filterClassification === classification[idx])
 									return (
 										<div className={'material-image-box button'}
 											id={`material-image-box${idx}`}
-											onAuxClick={() => {
-												console.log('click');
+											onAuxClick={(e) => {
+												let rect = e.currentTarget.getBoundingClientRect();
+												console.log(rect);
+												this.setState({
+													displayPos: {
+														left: rect.left + 284,
+														top: rect.top + 104
+													},
+													selectedElement: e.currentTarget
+												});
+												e.preventDefault();
 											}}
 											onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
 											<img alt="tile set"
@@ -120,12 +138,23 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 												style={{ marginLeft: `${data.imgLeft}px`, marginTop: `${data.imgTop}px` }}
 											/>
 										</div>
-									)
+									);
+								else return null;
 							}) : <div style={{ margin: 'auto' }}>
 								<CircularProgress />
 							</div>}
 					</div>
 				</div>
+				<MaterialMenu
+					anchorReference="anchorPosition"
+					anchorPosition={this.state.displayPos as PopoverPosition}
+					anchorEl={this.state.selectedElement}
+					keepMounted
+					open={Boolean(this.state.selectedElement)}
+					onClose={() => this.setState({ selectedElement: null })}
+				>
+					<div>123123123</div>
+				</MaterialMenu>
 				<ZoomSlider />
 			</div>
 		);
