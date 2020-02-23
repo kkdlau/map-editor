@@ -32,8 +32,8 @@
 .classification-title {
     display: flex;
     background: #292929;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     margin-right: 12px;
     margin-left: 12px;
     border: 2px solid #272727;
@@ -52,7 +52,7 @@
 }
 
 .material-box {
-    height: calc(100% - 118px);
+    height: calc(100% - 147px);
     overflow-y: auto;
     display: flex;
     flex-wrap: wrap;

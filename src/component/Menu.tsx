@@ -9,7 +9,7 @@ import FunctionBar from './FunctionBar';
 import { emitter } from '..';
 import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Popover, Typography, Button } from '@material-ui/core';
 import deleteTWTile from './deleteTWTile.json'
 import classification from './classification.json'
 
@@ -50,6 +50,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 				loaded: true
 			});
 		});
+		document.oncontextmenu = () => {
+			return false;
+		}
+
+
 	}
 
 	render() {
@@ -84,6 +89,16 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 						<TabButton className='button' alias="floor">地板</TabButton>
 						<TabButton className='button' alias="wall">牆壁</TabButton>
 						<TabButton className='button' alias="object">物件</TabButton>
+					</ButtonGroup>
+
+					<ButtonGroup className='classification-title'
+						style={{ margin: '0px 30px 10px 30px' }}
+						selectedStyle={{ background: '#424242' }}
+						defaultValue={"grid"}
+						choose={(alias: string, last: string) => {
+
+						}}>
+						<TabButton className='button' alias="grid">單格</TabButton>
 						<TabButton className='button' alias="group">群組</TabButton>
 					</ButtonGroup>
 
@@ -94,6 +109,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 									return (
 										<div className={'material-image-box button'}
 											id={`material-image-box${idx}`}
+											onAuxClick={() => {
+												console.log('click');
+											}}
 											onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
 											<img alt="tile set"
 												onClick={() => emitter.emit('selected_tile', idx)}
