@@ -11,6 +11,7 @@ import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
 import { CircularProgress } from '@material-ui/core';
 import deleteTWTile from './deleteTWTile.json'
+import classification from './classification.json'
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -38,6 +39,9 @@ interface MenuState {
 
 export class Menu extends React.Component<MenuProps, MenuState> {
 
+	filterTitle: string = 'built-in';
+	filterClassification: string = 'floor';
+
 	constructor(props: MenuProps, context?: any) {
 		super(props, context);
 		this.state = { materialImage: [], materialPosition: [], settingPanel: false, loaded: false };
@@ -58,7 +62,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 						selectedStyle={{ background: '#424242' }}
 						defaultValue={"built-in"}
 						choose={(alias: string, last: string) => {
-							console.log(alias);
+							this.filterTitle = alias;
+							this.setState({
+								loaded: true
+							});
 						}}>
 						<TabButton className='button' alias="built-in">內建</TabButton>
 						<TabButton className='button' alias="custom">自訂</TabButton>
@@ -69,7 +76,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 						selectedStyle={{ background: '#424242' }}
 						defaultValue={"floor"}
 						choose={(alias: string, last: string) => {
-							console.log(alias);
+							this.filterClassification = alias;
+							this.setState({
+								loaded: true
+							});
 						}}>
 						<TabButton className='button' alias="floor">地板</TabButton>
 						<TabButton className='button' alias="wall">牆壁</TabButton>
@@ -80,9 +90,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 					<div className='material-box'>
 						{this.state.loaded ?
 							this.state.materialPosition.map((data: any, idx) => {
-								if (deleteTWTile.removeAt.split(',')[idx] != '1')
+								if (deleteTWTile.removeAt.split(',')[idx] != '1' && this.filterClassification == classification[idx])
 									return (
-										<div className='material-image-box button'
+										<div className={'material-image-box button'}
 											id={`material-image-box${idx}`}
 											onClick={materialClick.bind(this, `material-image-box${idx}`)} key={idx}>
 											<img alt="tile set"
