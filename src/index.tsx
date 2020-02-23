@@ -15,7 +15,7 @@ import tileset_6 from './assets/tileset_6.png';
 import tileset_7 from './assets/tileset_7.png';
 import tileset_8 from './assets/tileset_8.png';
 import tileset_9 from './assets/tileset_9.png';
-import jsonData from './assets/decoded.json';
+import jsonData from './assets/elmar.json';
 import { EditableMap, Click } from './lib/EditableMap';
 import { Action, undoRecord, redoRecord } from './lib/undoRedo';
 import { shortcutManager } from './lib/ShortcutManager';
@@ -80,7 +80,7 @@ emitter.on('selected_tile', (id: number) => {
 loader.load((loader, resources) => {
     document.body.appendChild(mapViewer.view);
 
-    manager = new ImageTileManager(['tileset_0']);
+    manager = new ImageTileManager(Object.keys(resourceList));
 
     manager.loadTexture().then(() => {
         let myMap: EditableMap = EditableMap.fromJSON(manager, jsonData);
