@@ -1,19 +1,20 @@
 import { ImageTileManager } from "../lib/ImageTileManager";
 import * as PIXI from 'pixi.js';
-import { resourceList } from '../index';
+import { resourceList, editorResourceList } from '../index';
 /**
  * @param {ImageTileManager} data  image data
  * @param {Array<String>} containerImage  save imageurl here
  * @param {Array<String>} containerPosition  save imagePosition here 
  */
 
+
 export const loadMaterial = async (data: ImageTileManager, containerImage: Array<String>, containerPosition: Array<Object>): Promise<void> => {
+	
 	return new Promise<void>(resolve => {
 		let sprite: Array<PIXI.Sprite> = [];
-		for (let alias in resourceList) {
-			if (alias !== "tileset_4")
-				sprite.push(PIXI.Sprite.from(resourceList[alias]));
-		}
+		editorResourceList.forEach((e) => {
+			sprite.push(PIXI.Sprite.from(e));
+		});
 
 		materialToUrl(containerImage);
 		spritePosition(sprite, containerPosition);
@@ -24,11 +25,9 @@ export const loadMaterial = async (data: ImageTileManager, containerImage: Array
 
 const materialToUrl = async (container: Array<String>): Promise<void> => {
 	return new Promise<void>(resolve => {
-		for (let alias in resourceList) {
-			if (alias !== "tileset_4")
-				container.push(resourceList[alias]);
-		}
-
+		editorResourceList.forEach((e) => {
+			container.push(e);
+		});
 		resolve();
 	});
 }
