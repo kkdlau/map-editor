@@ -37,17 +37,6 @@ export let resourceList = {
     'tileset_8': tileset_8,
     'tileset_9': tileset_9,
 };
-export const editorResourceList = [
-	resourceList.tileset_0,
-	resourceList.tileset_3,
-	resourceList.tileset_2,
-	resourceList.tileset_1,
-	resourceList.tileset_5,
-	resourceList.tileset_6,
-	resourceList.tileset_7,
-	resourceList.tileset_8,
-	resourceList.tileset_9,
-];
 
 export const download = (data, fileAlias, type) => {
     let file: Blob = new Blob([data], { type: type });
