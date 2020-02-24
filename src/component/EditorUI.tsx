@@ -9,11 +9,12 @@ import FunctionBar from './FunctionBar';
 import { emitter } from '..';
 import ButtonGroup from './ButtonGroup';
 import TabButton from './TabButton';
-import { CircularProgress, Menu as MaterialMenu, PopoverPosition, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { CircularProgress, Menu as MaterialMenu, PopoverPosition, MenuItem, ListItemIcon, ListItemText, Snackbar, Slide } from '@material-ui/core';
 import deleteTWTile from './json/deleteTWTile.json'
 import classification from './json/classification.json'
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 /**
  * 我是命運，我先寫一下有什麼是想你做的／之後我會做的：
@@ -26,6 +27,12 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
  * 
  * 我看地圖編輯器功能應該不只以上的吧，比起做出以前的編輯器，不如想想你有什麼新功能想做，告訴我之後可以幫你做出來
  */
+
+
+function Alert(props: AlertProps) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 interface MenuProps {
 	manager: ImageTileManager,
 }
@@ -36,8 +43,11 @@ interface MenuState {
 	settingPanel: boolean,
 	loaded: boolean,
 	selectedElement: HTMLElement,
-	displayPos: Object
+	displayPos: Object,
+	snakeBar: boolean,
+	snakeBarMes: String
 }
+
 
 export class EditorUI extends React.Component<MenuProps, MenuState> {
 
@@ -53,6 +63,8 @@ export class EditorUI extends React.Component<MenuProps, MenuState> {
 			settingPanel: false,
 			loaded: false,
 			selectedElement: null,
+			snakeBar: false,
+			snakeBarMes: '',
 		};
 		loadMaterial(this.props.manager, this.state.materialImage, this.state.materialPosition).then(() => {
 			this.setState({
@@ -151,7 +163,9 @@ export class EditorUI extends React.Component<MenuProps, MenuState> {
 					open={Boolean(this.state.selectedElement)}
 					onClose={() => this.setState({ selectedElement: null })}
 				>
-					<MenuItem>
+					<MenuItem onClick={() => {
+						this.setState({ snakeBar: true, selectedElement: null, snakeBarMes: '已加入常用' })
+					}}>
 						<ListItemIcon style={{ minWidth: '40px' }}>
 							<FavoriteBorder fontSize="small" />
 						</ListItemIcon>
@@ -160,7 +174,22 @@ export class EditorUI extends React.Component<MenuProps, MenuState> {
 
 				</MaterialMenu>
 				<ZoomSlider />
-			</div>
+
+				<Snackbar
+					open={this.state.snakeBar}
+					autoHideDuration={2000}
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+					onClose={(reason) => { if (reason == null) this.setState({ snakeBar: false }) }}
+				>
+					<Alert
+						onClose={() => { this.setState({ snakeBar: false }) }}
+						severity="success"
+					>
+						{this.state.snakeBarMes}
+					</Alert>
+				</Snackbar>
+
+			</div >
 		);
 	}
 }

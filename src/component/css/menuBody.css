@@ -76,3 +76,7 @@
     zoom: 1.3;
     margin: 9.5px;
 }
+
+.snackbar div {
+    background: #424242;
+}
